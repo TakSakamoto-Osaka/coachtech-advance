@@ -14,11 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call(AreasTableSeeder::class);       //  地域
+        $this->call(GenresTableSeeder::class);      //  ジャンル
+        $this->call(RestaurantsTableSeeder::class);      //  店舗
     }
 }

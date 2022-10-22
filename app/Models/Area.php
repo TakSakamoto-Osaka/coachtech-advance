@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genre extends Model
+class Area extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',             //  ジャンル名
-        'order'             //  表示順
+        'name',         //  地域名
+        'order'         //  表示順
     ];
 }
