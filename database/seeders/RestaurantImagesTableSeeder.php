@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Genre;
 use App\Models\Restaurant;
@@ -28,7 +29,7 @@ class RestaurantImagesTableSeeder extends Seeder
             //  店舗一覧CSVファイルから店舗画像URL取得
             $array_images = array();
 
-            $fp = fopen( resource_path('/doc/店舗データ一覧.csv'), 'r' );
+            $fp   = fopen( resource_path('/doc/店舗データ一覧.csv'), 'r' );
             $line = fgetcsv($fp);               //  タイトル行読み捨て
 
             while($line = fgetcsv($fp)) {
@@ -37,7 +38,6 @@ class RestaurantImagesTableSeeder extends Seeder
 
             fclose($fp);                        //  CSVファイル閉じる
 
-
             //  ジャンル画像ファイルから画像ファイルBase64エンコードデータ取得
             $array_sushi_images    = array();
             $array_yakiniku_images = array();
@@ -45,7 +45,7 @@ class RestaurantImagesTableSeeder extends Seeder
             $array_italian_images  = array();
             $array_ramen_images    = array();
 
-            $fp = fopen( resource_path('/doc/ジャンル画像.csv'), 'r' );
+            $fp   = fopen( resource_path('/doc/ジャンル画像.csv'), 'r' );
             $line = fgetcsv($fp);               //  タイトル行読み捨て
 
             while($line = fgetcsv($fp)) {
@@ -67,7 +67,7 @@ class RestaurantImagesTableSeeder extends Seeder
                         break;
 
                     case 'ラーメン':
-                        array_push( $array_ramen_images, $line[1] );      //  画像Base54文字列をラーメン配列に入れる
+                        array_push( $array_ramen_images, $line[1] );        //  画像Base54文字列をラーメン配列に入れる
                         break;
                 }
             }
@@ -76,12 +76,17 @@ class RestaurantImagesTableSeeder extends Seeder
 
 
             //  全店舗のデータ取得し、画像データ生成
-            $restaurants = Restaurant::select(['r.id', 'r.genre_id', 'g.name'])->from('restaurants as r')
-                            ->join('genres as g', function($join) {
-                                $join->on('r.genre_id', '=', 'g.id');
-                            })
-                            ->orderBy('r.id')
-                            ->get();
+            //$restaurants = Restaurant::select(['r.id', 'r.genre_id', 'g.name'])->from('restaurants as r')
+            //                ->join('genres as g', function($join) {
+            //                    $join->on('r.genre_id', '=', 'g.id');
+            //                })
+            //                ->orderBy('r.id')
+            //                ->get();
+            $restaurants = DB::table('restaurants as r')
+                ->select('r.id', 'r.genre_id', 'g.name')
+                ->Join('genres as g', 'r.genre_id', '=', 'g.id')
+                ->orderBy('r.id')
+                ->get();
 
             foreach( $restaurants as $restaurant ) {
                 //  1枚目(代表画像)の画像生成
@@ -132,7 +137,6 @@ class RestaurantImagesTableSeeder extends Seeder
                     
                     RestaurantImage::create( $param );
                 }
-
             }
 
         } catch ( Exception $e ) {

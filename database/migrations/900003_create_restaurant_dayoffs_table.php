@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        //  restaurantsテーブル
-        Schema::create('restaurant_day_offs', function (Blueprint $table) {
+        //  店舗営業標準休日テーブル
+        Schema::create('restaurant_dayoffs', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('restaurant_id')->constrained('restaurants')->comment('店舗ID');
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restaurant_day_offs');
+        Schema::dropIfExists('restaurant_dayoffs');
     }
 };
