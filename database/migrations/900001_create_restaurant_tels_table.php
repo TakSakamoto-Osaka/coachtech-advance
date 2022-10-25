@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('restaurant_id')->constrained('restaurants')->comment('店舗ID');
-            $table->tinyinteger('tel')                                    ->comment('電話番号');
+            $table->string('tel', 255)                                    ->comment('電話番号');
             $table->tinyinteger('type')                                   ->comment('電話種類 1 : 通常 / 2 : フリーダイヤル / 3 : 携帯');
 
             $table->timestamps();
