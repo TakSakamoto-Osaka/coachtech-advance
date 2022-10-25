@@ -34,8 +34,7 @@ class RestaurantOverrideHoursTableSeeder extends Seeder
                 $buss_hours = RestaurantBussinessHour::where([
                     ['restaurant_id', '=', "{$restaurant->id}"],
                     ['type', '=', '1']
-                    ])
-                    ->get();
+                    ])->get();
                     
                 if ( count($buss_hours) > 0 ) {     //  昼の営業がある場合
                     //  昼の臨時営業
@@ -86,53 +85,86 @@ class RestaurantOverrideHoursTableSeeder extends Seeder
                     }
 
                     //  昼の臨時休業
-                        //  平日の休日取得
-                        $dayoff = RestaurantDayOff::where( [
-                            ['day_of_week', '>=', 2], ['day_of_week', '<=', 6], ['restaurant_id', '=', $restaurant->id ]
-                        ] )->first();
+                    //  平日の休日取得
+                    $dayoff = RestaurantDayOff::where( [
+                        ['day_of_week', '>=', 2], ['day_of_week', '<=', 6], ['restaurant_id', '=', $restaurant->id ]
+                    ] )->first();
 
-                        if ( $dayoff != null ) {
-                            //  休日設定の曜日の除く
-                            $week = [];
-                            foreach( [ 2, 3, 4, 5, 6 ] as $elem ) {
-                                if ( $elem != $dayoff->day_of_week ) {
-                                    array_push( $week, $elem );
-                                }
+                    if ( $dayoff != null ) {
+                        //  休日設定の曜日の除く
+                        $week = [];
+                        foreach( [ 2, 3, 4, 5, 6 ] as $elem ) {
+                            if ( $elem != $dayoff->day_of_week ) {
+                                array_push( $week, $elem );
                             }
-                        } else {
-                            $week = [ 2, 3, 4, 5, 6 ];
                         }
+                    } else {
+                        $week = [ 2, 3, 4, 5, 6 ];
+                    }
 
-                        shuffle($week);                 //  営業日の曜日をシャッフル
+                    shuffle($week);                 //  営業日の曜日をシャッフル
                         
-                        for ( $i = 0; $i < 3; $i++ ) {
-                            if ( random_int( 1, 10 ) <= 4 ) {   //  4割の確率で臨時休業に設定
-                                for ( $j = 0; $j < 7; $j++ ) {
-                                    if ( date( 'w', strtotime("+{$j} day") ) + 1 == $week[$i] ) {   //  臨時休業候補と同一曜日
-                                        $k = $j + $i * 7;                   //  同一曜日
-                                        $tmp_open_day = date('Y-m-d', strtotime("+{$k} day"));
-                                        $param = [
-                                            'restaurant_id'  => $restaurant->id,            //  店舗ID
-                                            'special_day'    => $tmp_open_day,              //  臨時日
-                                            'temporary_type' => 2,                          //  1 : 臨時営業 / 2 : 臨時休日
-                                            'type'           => 1,                          //  1 : 昼間 / 2 : 夜
-                                            'open_time'      => null,      //  開店時間
-                                            'close_time'     => null,     //  閉店時間
-                                            'lastorder_time' => null, //  ラストオーダー時間 (この時間以降は予約不可)
-                                        ];
-                                        RestaurantOverrideHour::create($param);
-                                        break;
-                                    }
+                    for ( $i = 0; $i < 3; $i++ ) {
+                        if ( random_int( 1, 10 ) <= 4 ) {   //  4割の確率で臨時休業に設定
+                            for ( $j = 0; $j < 7; $j++ ) {
+                                if ( date( 'w', strtotime("+{$j} day") ) + 1 == $week[$i] ) {   //  臨時休業候補と同一曜日
+                                    $k = $j + $i * 7;                   //  同一曜日
+                                    $tmp_open_day = date('Y-m-d', strtotime("+{$k} day"));
+                                    $param = [
+                                        'restaurant_id'  => $restaurant->id,            //  店舗ID
+                                        'special_day'    => $tmp_open_day,              //  臨時日
+                                        'temporary_type' => 2,                          //  1 : 臨時営業 / 2 : 臨時休日
+                                        'type'           => 1,                          //  1 : 昼間 / 2 : 夜
+                                        'open_time'      => null,      //  開店時間
+                                        'close_time'     => null,     //  閉店時間
+                                        'lastorder_time' => null, //  ラストオーダー時間 (この時間以降は予約不可)
+                                    ];
+                                    RestaurantOverrideHour::create($param);
+                                    break;
                                 }
                             }
                         }
+                    }
                 }
 
+                //  夜の臨時営業
+                
+                $dayoff = RestaurantDayOff::where(
+                    'restaurant_id', '=', $restaurant->id
+                )->first();                           //  休日があるか取得
+                
+                if ( $dayoff != null ) {                //  休日がある場合
+                    for ( $i = 0; $i < 3; $i++ ) {
+                        if ( random_int( 1, 10 ) <= 4 ) {   //  4割の確率で臨時営業に設定
+                            for ( $j = 0; $j < 7; $j++ ) {
+                                if ( date( 'w', strtotime("+{$j} day") ) + 1 == $dayoff->day_of_week ) {   //  臨時営業候補と同一曜日
+                                    $k = $j + $i * 7;                   //  同一曜日
+                                    $tmp_open_day = date('Y-m-d', strtotime("+{$k} day"));
 
-            //  夜の臨時営業
+                                    $buss_hours = RestaurantBussinessHour::where([
+                                        ['restaurant_id', '=', "{$restaurant->id}"],
+                                        ['type', '=', '2'],
+                                        ['day_type', '=', 1]
+                                    ])->first();            //  臨時営業時間は平日の営業時間と同じ
 
-
-            //  夜の臨時休業
+                                    $param = [
+                                        'restaurant_id'  => $restaurant->id,                //  店舗ID
+                                        'special_day'    => $tmp_open_day,                  //  臨時日
+                                        'temporary_type' => 1,                              //  1 : 臨時営業 / 2 : 臨時休日
+                                        'type'           => 2,                              //  1 : 昼間 / 2 : 夜
+                                        'open_time'      => $buss_hours->open_time,         //  開店時間
+                                        'close_time'     => $buss_hours->close_time,        //  閉店時間
+                                        'lastorder_time' => $buss_hours->lastorder_time,    //  ラストオーダー時間 (この時間以降は予約不可)
+                                    ];
+                                    RestaurantOverrideHour::create($param);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                //  夜の臨時休業
 
                 
 
