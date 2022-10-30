@@ -7,7 +7,7 @@
   <link href="{{ asset('css/reset.css') }}" rel="stylesheet">
   <link href="{{ asset('css/common.css') }}" rel="stylesheet">
   @yield('pageCSS')
-  <title>飲食店予約サイト</title>
+  <title>Rese 飲食店予約サイト</title>
 </head>
 <body>
   @yield('headline')

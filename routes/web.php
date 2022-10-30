@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\Restaurant\RestaurantController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,18 +15,12 @@ use App\Http\Controllers\Guest\GuestController;
 */
 
 //  サイトトップ
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-Route::redirect('/', '/guest');
+Route::redirect('/', '/restaurant');
 
-//  ゲスト関連ページ
-Route::prefix('guest')->group( function () {
-  Route::get('/', [GuestController::class, 'index']);         //  ゲストTOPページ
+//  飲食店関連ページ
+Route::prefix('restaurant')->group( function () {
+  Route::get('', [RestaurantController::class, 'index']);   //  店舗ページTOP
 });
-// Route::middleware(['auth', 'verified'])->prefix('guest')->group( function () {
-//   Route::get('/', [GuestController::class, 'index']);         //  ゲストTOPページ
-// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
