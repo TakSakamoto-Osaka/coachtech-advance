@@ -12,6 +12,12 @@ class RestaurantController extends Controller
 
     public function index( Request $request )
     {
-        return view('restaurant.index');
+        // 現在認証しているユーザーを取得
+        $user = Auth::user();
+
+        // 現在認証しているユーザーのIDを取得
+        $id = Auth::id();
+        
+        return view('restaurant.index', ['user'=>$user]);
     }
 }
