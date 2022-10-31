@@ -2,7 +2,7 @@
 
 <!-- ページ固有CSS -->
 @section('pageCSS')
-<link href="{{ asset('css/login.css') }}" rel="stylesheet">
+<link href="/css/login.css" rel="stylesheet">
 @endsection
 
 <!-- ページコンテンツ部 -->
