@@ -24,4 +24,11 @@ class RestaurantController extends Controller
         
         return view('restaurant.index', ['user'=>$user, 'restaurants'=>$restaurants]);
     }
+
+    public function detail( Request $request, $id )
+    {
+        list( $restaurant, $images ) = Restaurant::getDetail( $id );
+
+        return view('restaurant.detail', ['restaurant'=>$restaurant, 'images'=>$images]);
+    }
 }

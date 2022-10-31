@@ -5,3 +5,26 @@
 .content {
     background-color: darkgray;
 }
+
+.outer {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #eee;
+}
+
+.inner {
+    width: 90%;
+    padding-top: 40px;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header-title {
+    color: #375df5;
+    font-size: xx-large;
+}

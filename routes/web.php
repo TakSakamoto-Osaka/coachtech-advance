@@ -15,12 +15,15 @@ use App\Http\Controllers\Restaurant\RestaurantController;
 */
 
 //  サイトトップ
-Route::redirect('/', '/restaurant');
+Route::get('/', [RestaurantController::class, 'index']);   //  店舗ページTOP
 
 //  飲食店関連ページ
-Route::prefix('restaurant')->group( function () {
-  Route::get('', [RestaurantController::class, 'index']);   //  店舗ページTOP
-});
+Route::get('/detail/{id}', [RestaurantController::class, 'detail']);    //  店舗詳細ページ
+
+// Route::prefix('restaurant')->group( function () {
+//   Route::get('', [RestaurantController::class, 'index']);   //  店舗ページTOP
+// });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

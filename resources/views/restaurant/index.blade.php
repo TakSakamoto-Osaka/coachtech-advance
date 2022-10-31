@@ -42,8 +42,10 @@
             <span>#{{ $restaurant->area_name }}</span>
             <span>#{{ $restaurant->genre_name }}</span>
             <div class="card-bottom">
-              <button class="btn-detail">詳しくみる</button>
-              <img src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
+              <button type=“button” class="btn-detail" onclick="location.href='{{ asset('/detail') }}/{{ $restaurant->id }}'">詳しくみる</button>
+              @if ( $user !== null )
+                <img src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
+              @endif
 
             </div>
           </div>

@@ -37,6 +37,28 @@ class Restaurant extends Model
         } catch( Exception $e ) {
             throw $e;
         }
+    }
 
-    } 
+    public static function getDetail( $id )
+    {
+        try {
+            $restaurant = DB::table('restaurants as r')
+                ->select('r.id', 'r.name', 'r.info', 'g.name as genre_name', 'a.name as area_name')
+                ->Join('genres as g', 'r.genre_id', '=', 'g.id')
+                ->Join('areas as a', 'r.area_id', '=', 'a.id')
+                ->where('r.id', '=', $id)
+                ->first();
+
+            $images = DB::table('restaurant_images as ri')
+                ->select('ri.order', 'ri.img')
+                ->where('ri.restaurant_id', '=', $id)
+                ->orderBy('ri.order')
+                ->get();
+
+            return( array( $restaurant, $images ) );
+
+        } catch( Exception $e ) {
+            throw $e;
+        }
+    }
 }
