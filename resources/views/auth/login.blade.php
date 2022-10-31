@@ -9,9 +9,7 @@
 @section('content')
 
 <!-- Session Status -->
-<x-auth-session-status class="mb-4" :status="session('status')" />
-
-
+<div class="login-outer" :status="session('status')" />
     <form class="login-form" method="POST" action="{{ route('login') }}">
         @csrf
         <div class="login-title">Login</div>
@@ -43,6 +41,6 @@
         </div>
 
     </form>
-
+</div>
 
 @endsection

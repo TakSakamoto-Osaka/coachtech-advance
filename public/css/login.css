@@ -2,6 +2,14 @@
     ログイン認証関連ページ CSS
 */
 
+.login-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
 .login-form {
     height: 290px;
     width: 400px;
