@@ -6,6 +6,8 @@
 /vendor
 .env
 .env.backup
+.env.local
+.env.aws
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

@@ -41,6 +41,23 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+//  実行環境に応じて読み込む .env ファイル切り替え
+switch ($_SERVER['SERVER_NAME']  ) {
+    case '127.0.0.1':                       //  ローカル環境の場合
+        $app->loadEnvironmentFrom('.env.local');
+        break;
+    
+    case 'aws-sakamoto-test.work':          //  AWS本番環境の場合
+        $app->loadEnvironmentFrom('.env.aws');
+        break;
+
+    default:
+        $app->loadEnvironmentFrom('.env');
+        break;
+}
+
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application
