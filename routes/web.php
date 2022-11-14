@@ -15,10 +15,10 @@ use App\Http\Controllers\Restaurant\RestaurantController;
 */
 
 //  サイトトップ
-Route::get('/', [RestaurantController::class, 'index']);   //  店舗ページTOP
+Route::get('/', [RestaurantController::class, 'index'])->middleware(['auth', 'verified'])->name('top');   //  店舗ページTOP
 
 //  飲食店関連ページ
-Route::get('/detail/{id}', [RestaurantController::class, 'detail']);    //  店舗詳細ページ
+Route::get('/detail/{id}', [RestaurantController::class, 'detail'])->middleware(['auth', 'verified'])->name('detail');    //  店舗詳細ページ
 
 // Route::prefix('restaurant')->group( function () {
 //   Route::get('', [RestaurantController::class, 'index']);   //  店舗ページTOP
