@@ -13,11 +13,11 @@ jobs:
           fingerprints:
             - ${FINGER_PRINTS}
       # CircleCI に登録した環境変数を使って SSH
-      - run: ssh -v -o StrictHostKeyChecking=no ${USER_NAME}@${HOST_NAME} 'cd /home/ec2-user/prog/coachtech-advance && sudo bash deploy.sh'
+      - run: ssh -v -o StrictHostKeyChecking=no ${USER_NAME}@${HOST_NAME} 'cd /home/ec2-user/prog/coachtech-advance && bash deploy.sh'
 
 workflows:
   version: 2
-  # build_and_deploy ジョブ: 一番最初に呼ばれるジョブ
+  # deploy ジョブ:
   deploy:
     # deploy ジョブを登録する
     jobs:
