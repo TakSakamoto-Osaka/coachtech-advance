@@ -36,7 +36,7 @@
             <button class="login-btn">ログイン</button>
         </div>
         <div class="forgot-password">
-            <a href="{{ asset('/register') }}">新規登録2</a>
+            <a href="{{ asset('/register') }}">新規登録3</a>
             <a href="{{ asset('/forgot-password') }}">パスワードを忘れた方</a>
         </div>
 
