@@ -1,64 +1,58 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends("layouts.default")
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+<!-- ページ固有CSS -->
+@section('pageCSS')
+<link href="{{ asset('/css/register.css') }}" rel="stylesheet">
+@endsection
 
-            <!-- Name -->
-            <div>
-                <x-input-label for="name" :value="__('Name')" />
+<!-- ページコンテンツ部 -->
+@section('content')
 
-                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+<!-- Session Status -->
+<div class="register-outer" :status="session('status')" />
+    <form class="register-form" method="POST" action="{{ route('register') }}">
+        @csrf
+        <div class="register-title">新規登録</div>
+        
+        <!-- User Name -->
+        <div class="name-block">
+            <div class="input-title">お名前</div>
+            <input id="name" class="name-input" type="text" name="name" :value="old('name')" required autofocus />
+            <p class="error">&nbsp;</p>
+        </div>
 
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
-            </div>
+        <!-- Email Address -->
+        <div class="email-block">
+            <div class="input-title">メールアドレス</div>
+            <input id="email" class="email-input" type="email" name="email" :value="old('email')" required />
+            <p class="error"> @if($errors->has('email')) {{ $errors->first('email') }} @else &nbsp;  @endif </p>
+        </div>
 
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-input-label for="email" :value="__('Email')" />
-
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-
-                <x-text-input id="password" class="block mt-1 w-full"
+        <!-- Password -->
+        <div class="password-block">
+            <div class="input-title">パスワード</div>
+            <input id="password" class="password-input"
                                 type="password"
                                 name="password"
                                 required autocomplete="new-password" />
+            <p class="error">&nbsp;</p>
+        </div>
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-text-input id="password_confirmation" class="block mt-1 w-full"
+        <!-- Password -->
+        <div class="password-block">
+            <span class="input-title">パスワード[確認]</span>
+            <input id="password_confirmation" class="password-input"
                                 type="password"
-                                name="password_confirmation" required />
+                                name="password_confirmation"
+                                required />
+            <p class="error"> @if($errors->has('password')) {{ $errors->first('password') }} @else &nbsp;  @endif </p>
+        </div>
 
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
+        <div class="foot">
+            <a href="{{ asset('/login') }}">既に登録されている場合</a>
+            <button class="register-btn">登録</button>
+        </div>
+    </form>
+</div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
-
-                <x-primary-button class="ml-4">
-                    {{ __('Register') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+@endsection

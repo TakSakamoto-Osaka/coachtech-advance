@@ -1,0 +1,91 @@
+/*
+    新規登録関連ページ CSS
+*/
+
+.register-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.register-form {
+    height: 400px;
+    width: 600px;
+    background-color: white;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.register-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 15%;
+    background-color: #98ecec;
+    color: white;
+    font-size: x-large;
+    padding-left: 5%;
+}
+
+.input-title {
+    width: 150px;
+    display: inline-block;
+    padding-right: 10px;
+    margin-left: 7%;
+    vertical-align: middle;
+}
+
+.name-block {
+    margin-top: 20px;
+}
+
+.name-block,
+.email-block,
+.password-block {
+    display: inline-block;
+    width: 100%;
+}
+
+.name-input,
+.email-input,
+.password-input,
+.email-input:-webkit-autofill,
+.password-input:-webkit-autofill {
+    width: 50%;
+    height: 30px;
+    border: 1px solid gray;
+    background-color: whitesmoke;
+}
+
+img.icon {
+    width: 25px;
+    height: 25px;
+    padding-right: 10px;
+    margin-left: 7%;
+    vertical-align: middle;
+}
+
+.foot {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15%;
+}
+
+.register-btn {
+    background-color: #375df5;
+    color: white;
+    border-radius: 3px;
+    border-width: 0px;
+    padding: 5px 10px;
+    min-width: 100px;
+}
+
+.error {
+    margin: 8px auto 0px;
+    color: red;
+    text-align: left;
+    padding-left: 15%;
+}
