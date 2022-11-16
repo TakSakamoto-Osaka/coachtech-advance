@@ -1,0 +1,36 @@
+/*
+    レストラン関連ページ CSS
+*/
+
+.detail-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.restaurant-info {
+    width: 50%;
+}
+
+.img-container {
+    width: 100%;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.restaurant-name {
+    color: black;
+    font-size: xx-large;
+    font-weight: bold;
+    padding: 50px 0 20px;
+}
+
+.restaurant-attr {
+    padding: 20px 0;
+}
+
+.restaurant-explain {
+    line-height: 160%;
+}

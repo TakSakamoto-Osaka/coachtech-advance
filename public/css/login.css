@@ -1,0 +1,87 @@
+/*
+    ログイン認証関連ページ CSS
+*/
+
+.login-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-form {
+    height: 290px;
+    width: 400px;
+    background-color: white;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.login-title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 25%;
+    background-color: #375df5;
+    color: white;
+    font-size: x-large;
+    padding-left: 5%;
+}
+
+.email-block {
+    margin-top: 20px;
+}
+
+.email-block,
+.password-block {
+    display: inline-block;
+    width: 100%;
+}
+
+.email-input,
+.password-input {
+    width: 75%;
+    height: 30px;
+    border-bottom: 1px solid gray;
+}
+
+img.icon {
+    width: 25px;
+    height: 25px;
+    padding-right: 10px;
+    margin-left: 7%;
+    vertical-align: middle;
+}
+
+.email-input:-webkit-autofill,
+.password-input:-webkit-autofill {
+    border-bottom: 1px solid gray;
+}
+
+.foot {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 30px;
+}
+
+.login-btn {
+    background-color: #375df5;
+    color: white;
+    border-radius: 3px;
+    border-width: 0px;
+    padding: 5px 10px;
+}
+
+.forgot-password {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+}
+
+.error {
+    margin: 5px auto 0px;
+    color: red;
+    text-align: center;
+}

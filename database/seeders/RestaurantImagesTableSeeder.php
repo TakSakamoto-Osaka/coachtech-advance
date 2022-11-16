@@ -1,0 +1,146 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Genre;
+use App\Models\Restaurant;
+use App\Models\RestaurantImage;
+
+use Faker\Factory;
+
+class RestaurantImagesTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        try {
+            Schema::disableForeignKeyConstraints();     //  外部キーチェックを無効にする
+            RestaurantImage::truncate();                //  既存データ全件削除
+            Schema::enableForeignKeyConstraints();      //  外部キーチェックを有効にする
+
+            //  店舗一覧CSVファイルから店舗画像URL取得
+            $array_images = array();
+
+            $fp   = fopen( resource_path('/doc/店舗データ一覧.csv'), 'r' );
+            $line = fgetcsv($fp);               //  タイトル行読み捨て
+
+            while($line = fgetcsv($fp)) {
+                array_push( $array_images, $line[4] );      //  画像URL文字列を配列に入れる
+            }
+
+            fclose($fp);                        //  CSVファイル閉じる
+
+            //  ジャンル画像ファイルから画像ファイルBase64エンコードデータ取得
+            $array_sushi_images    = array();
+            $array_yakiniku_images = array();
+            $array_izakaya_images  = array();
+            $array_italian_images  = array();
+            $array_ramen_images    = array();
+
+            $fp   = fopen( resource_path('/doc/ジャンル画像.csv'), 'r' );
+            $line = fgetcsv($fp);               //  タイトル行読み捨て
+
+            while($line = fgetcsv($fp)) {
+                switch( $line[0] ) {
+                    case '寿司':
+                        array_push( $array_sushi_images, $line[1] );        //  画像Base54文字列を寿司配列に入れる
+                        break;
+
+                    case '焼肉':
+                        array_push( $array_yakiniku_images, $line[1] );     //  画像Base54文字列を焼肉配列に入れる
+                        break;
+
+                    case '居酒屋':
+                        array_push( $array_izakaya_images, $line[1] );      //  画像Base54文字列を居酒屋配列に入れる
+                        break;
+
+                    case 'イタリアン':
+                        array_push( $array_italian_images, $line[1] );      //  画像Base54文字列をイタリアン配列に入れる
+                        break;
+
+                    case 'ラーメン':
+                        array_push( $array_ramen_images, $line[1] );        //  画像Base54文字列をラーメン配列に入れる
+                        break;
+                }
+            }
+
+            fclose($fp);                        //  CSVファイル閉じる
+
+
+            //  全店舗のデータ取得し、画像データ生成
+            //$restaurants = Restaurant::select(['r.id', 'r.genre_id', 'g.name'])->from('restaurants as r')
+            //                ->join('genres as g', function($join) {
+            //                    $join->on('r.genre_id', '=', 'g.id');
+            //                })
+            //                ->orderBy('r.id')
+            //                ->get();
+            $restaurants = DB::table('restaurants as r')
+                ->select('r.id', 'r.genre_id', 'g.name')
+                ->Join('genres as g', 'r.genre_id', '=', 'g.id')
+                ->orderBy('r.id')
+                ->get();
+
+            foreach( $restaurants as $restaurant ) {
+                //  1枚目(代表画像)の画像生成
+                $param = [
+                    'restaurant_id' => $restaurant->id,
+                    'order'         => 1,                   //  代表画像
+                    'img'           => $img_base64 = base64_encode( file_get_contents( $array_images[ $restaurant->id - 1 ] ) ),
+                ];
+
+                RestaurantImage::create( $param );
+
+                //  2枚目以降の画像生成
+                $array_img_nos = range( 0, 24 );            //  ジャンルごとに画像は25枚ある。0〜24の抽選を行うため、0〜24の配列を生成する
+                shuffle($array_img_nos);                    //  配列をシャッフルする
+                
+                $img_num = random_int( 5, 14 );             //  画像生成枚数をランダムに決める
+                
+                $array_genre_images = null;
+
+                switch( $restaurant->name ) {
+                    case '寿司':
+                        $array_genre_images = $array_sushi_images;
+                        break;
+
+                    case '焼肉':
+                        $array_genre_images = $array_yakiniku_images;
+                        break;
+
+                    case '居酒屋':
+                        $array_genre_images = $array_izakaya_images;
+                        break;
+
+                    case 'イタリアン':
+                        $array_genre_images = $array_italian_images;
+                        break;
+
+                    case 'ラーメン':
+                        $array_genre_images = $array_ramen_images;
+                        break;
+                }
+
+                for ( $i = 0; $i < $img_num; $i++ ) {
+                    $param = [
+                        'restaurant_id' => $restaurant->id,
+                        'order'         => 2 + $i,          //  表示順(2以降)
+                        'img'           => $array_genre_images[ $array_img_nos[ $i ] ]
+                    ];
+                    
+                    RestaurantImage::create( $param );
+                }
+            }
+
+        } catch ( Exception $e ) {
+            echo $e->getMessage(), "\n";
+        }
+    }
+}
