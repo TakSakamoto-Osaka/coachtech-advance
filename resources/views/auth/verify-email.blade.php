@@ -1,39 +1,41 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends("layouts.default")
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+<!-- ページ固有CSS -->
+@section('pageCSS')
+<link href="{{ asset('/css/verify-email.css') }}" rel="stylesheet">
+@endsection
+
+<!-- ページコンテンツ部 -->
+@section('content')
+
+<!-- Session Status -->
+<div class="verify-email-outer" />
+    <div class="verify-email-inner">
+        <div class="verify-email-message">
+            ご登録いただきありがとうございます。本サイトにログインする前に先ほど入力されたメールアドレスに送付された本登録用メールのリンクをクリックし、
+            登録を完了させてください。もし本登録用メールが届いていない場合、下記の『 本登録メール再送信 』ボタンをクリックしてください。
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+            <div class="verify-email-link-sent">
+                本登録用メールを再送信しました。
             </div>
         @endif
 
-        <div class="mt-4 flex items-center justify-between">
+        <div class="foot">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
-
-                <div>
-                    <x-primary-button>
-                        {{ __('Resend Verification Email') }}
-                    </x-primary-button>
-                </div>
+                <button class="resend-email-btn">本登録メール再送信</button>
             </form>
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-
-                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    {{ __('Log Out') }}
-                </button>
+                <a class="logout" href="{{ asset('/logout')}}" onclick="event.preventDefault();this.closest('form').submit();">ログアウト</a>
             </form>
+
         </div>
-    </x-auth-card>
-</x-guest-layout>
+    </div>
+
+</div>
+
+@endsection

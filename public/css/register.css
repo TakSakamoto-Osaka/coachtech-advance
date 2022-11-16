@@ -1,5 +1,5 @@
 /*
-    新規登録関連ページ CSS
+    新規登録ページ CSS
 */
 
 .register-outer {
@@ -59,18 +59,11 @@
     background-color: whitesmoke;
 }
 
-img.icon {
-    width: 25px;
-    height: 25px;
-    padding-right: 10px;
-    margin-left: 7%;
-    vertical-align: middle;
-}
-
 .foot {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 10px 15%;
 }
 

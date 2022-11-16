@@ -1,0 +1,51 @@
+/*
+    メールアドレス認証照合表示ページ CSS
+*/
+
+.verify-email-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.verify-email-inner {
+    height: 300px;
+    width: 600px;
+    background-color: white;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.verify-email-message {
+    padding: 5% 10% 5%;
+    color: darkslategrey;
+    line-height: 150%;
+}
+
+.verify-email-link-sent {
+    padding: 0 10% 0;
+    color: skyblue;
+    line-height: 150%;
+}
+
+.foot {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15%;
+    border-radius: 3px;
+    border-width: 0px;
+}
+
+.resend-email-btn {
+    background-color: #333333;
+    color: white;
+    padding: 10px 30px;
+}
+
+.logout {
+    color: #777777;
+}
