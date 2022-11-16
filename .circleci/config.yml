@@ -12,7 +12,7 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - ${FINGER_PRINTS}
-      # CircleCI に登録した環境変数を使って SSH
+      # CircleCI に登録した環境変数を使って SSH 
       - run: ssh -v -o StrictHostKeyChecking=no ${USER_NAME}@${HOST_NAME} 'cd /home/ec2-user/prog/coachtech-advance && bash deploy.sh'
 
 workflows:
