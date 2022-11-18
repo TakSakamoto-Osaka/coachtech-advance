@@ -1,51 +1,46 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends("layouts.default")
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+<!-- ページ固有CSS -->
+@section('pageCSS')
+<link href="{{ asset('/css/reset-password.css') }}" rel="stylesheet">
+@endsection
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+<!-- ページコンテンツ部 -->
+@section('content')
 
-            <!-- Email Address -->
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
+<div class="reset-password-outer" :status="session('status')" />
+    <form class="reset-password-form" method="POST" action="{{ route('password.update') }}">
+        @csrf
+        <div class="reset-password-title">パスワードリセット</div>
 
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+        <!-- Password Reset Token -->
+        <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+        <!-- Email Address -->
+        <div class="email-block">
+            <div class="input-title">メールアドレス</div>
+            <input id="email" class="email-input" type="email" name="email" :value="old('email')" required />
+            <p class="error"> @if($errors->has('email')) {{ $errors->first('email') }} @else &nbsp;  @endif </p>
+        </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
+        <!-- Password -->
+        <div class="password-block">
+            <div class="input-title">パスワード</div>
+            <input id="password" class="password-input" type="password" name="password" required  />
+            <p class="error">&nbsp;</p>
+        </div>
 
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required />
+        <!-- Confirm Password -->
+        <div class="password-block">
+            <span class="input-title">パスワード[確認]</span>
+            <input id="password_confirmation" class="password-input" type="password" name="password_confirmation" required />
+            <p class="error"> @if($errors->has('password')) {{ $errors->first('password') }} @else &nbsp;  @endif </p>
+        </div>
 
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+        <div class="foot">
+            <button class="reset-password-btn">パスワードリセット</button>
+        </div>
+    </form>
+</div>
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Reset Password') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+@endsection

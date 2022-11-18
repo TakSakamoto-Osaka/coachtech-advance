@@ -38,7 +38,7 @@
             <p class="error">&nbsp;</p>
         </div>
 
-        <!-- Password -->
+        <!-- Confirm Password -->
         <div class="password-block">
             <span class="input-title">パスワード[確認]</span>
             <input id="password_confirmation" class="password-input"
