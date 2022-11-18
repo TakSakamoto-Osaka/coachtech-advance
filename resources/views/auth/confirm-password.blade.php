@@ -1,35 +1,32 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends("layouts.default")
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
+<!-- ページ固有CSS -->
+@section('pageCSS')
+<link href="{{ asset('/css/confirm-password.css') }}" rel="stylesheet">
+@endsection
+
+<!-- ページコンテンツ部 -->
+@section('content')
+<div class="confirm-password-outer" />
+    <form class="confirm-password-form" method="POST" action="{{ route('password.confirm') }}">
+        @csrf
+        <div class="confirm-password-title">パスワード確認</div>
+            
+        <div class="confirm-password-message">
+            操作を続ける場合はパスワードを入力し、確認ボタンを押してください。
         </div>
 
-        <form method="POST" action="{{ route('password.confirm') }}">
-            @csrf
+        <!-- Password -->
+        <div class="password-block">
+            <div class="input-title">パスワード</div>
+            <input id="password" class="password-input" type="password" name="password" required autocomplete="current-password" />
+            <p class="error">&nbsp;</p>
+        </div>
 
-            <!-- Password -->
-            <div>
-                <x-input-label for="password" :value="__('Password')" />
+        <button class="confirm-password-btn">
+            確認
+        </button>
+    </form>
+</div>
 
-                <x-text-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
-
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <div class="flex justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Confirm') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+@endsection
