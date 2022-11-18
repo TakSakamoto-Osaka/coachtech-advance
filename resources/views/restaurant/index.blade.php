@@ -36,7 +36,9 @@
     <div class="card-set">
       @foreach ( $restaurants as $restaurant )
         <div class="card">
-          <img src="{{ asset('/storage/images') }}/{{ $restaurant->img }}" alt="">
+          
+          <img src="{{ $restaurant->img }}" alt="">
+          
           <div class="restaurant-item">
             <p class="restaurant-name">{{ $restaurant->name }}</p>
             <span>#{{ $restaurant->area_name }}</span>

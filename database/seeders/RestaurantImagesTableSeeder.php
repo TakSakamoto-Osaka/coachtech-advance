@@ -96,7 +96,7 @@ class RestaurantImagesTableSeeder extends Seeder
                 file_put_contents("{$storage_path}/{$jpeg_name}", $data);
 
                 $cmd = "aws s3 cp {$storage_path}/{$jpeg_name} s3://aws-sakamoto-test-coachtech/images/{$jpeg_name}";
-                echo exec($cmd);
+                exec($cmd);
 
                 //  1枚目(代表画像)の画像生成
                 $param = [
@@ -145,7 +145,7 @@ class RestaurantImagesTableSeeder extends Seeder
                     file_put_contents("{$storage_path}/{$jpeg_name}", $data);
 
                     $cmd = "aws s3 cp {$storage_path}/{$jpeg_name} s3://aws-sakamoto-test-coachtech/images/{$jpeg_name}";
-                    echo exec($cmd);
+                    exec($cmd);
 
                     $param = [
                         'restaurant_id' => $restaurant->id,
