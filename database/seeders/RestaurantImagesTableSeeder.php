@@ -93,7 +93,9 @@ class RestaurantImagesTableSeeder extends Seeder
                 //  jpegファイル保存
                 $data = file_get_contents( $array_images[ $restaurant->id - 1 ] );
                 $jgeg_name = "restaurant-{$str_id}-001.jpeg";
-                file_put_contents("$storage_path/$jgeg_name", $data);
+                file_put_contents("{$storage_path}/{$jgeg_name}", $data);
+
+                $cmd = "aws s3 cp {$storage_path}/{$jgeg_name} s3://aws-sakamoto-test-coachtech/images";
 
                 //  1枚目(代表画像)の画像生成
                 $param = [
@@ -139,7 +141,7 @@ class RestaurantImagesTableSeeder extends Seeder
                     $data      = base64_decode($array_genre_images[ $array_img_nos[ $i ] ]);
                     $file_no   = sprintf('%03d', 2 + $i);
                     $jgeg_name = "restaurant-{$str_id}-{$file_no}.jpeg";
-                    file_put_contents("$storage_path/$jgeg_name", $data);
+                    file_put_contents("{$storage_path}/{$jgeg_name}", $data);
 
                     $param = [
                         'restaurant_id' => $restaurant->id,
