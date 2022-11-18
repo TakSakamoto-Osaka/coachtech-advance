@@ -21,6 +21,8 @@ class RestaurantImagesTableSeeder extends Seeder
      */
     public function run()
     {
+        $storage_path = './storage/app/public/images';
+
         try {
             Schema::disableForeignKeyConstraints();     //  外部キーチェックを無効にする
             RestaurantImage::truncate();                //  既存データ全件削除
@@ -76,12 +78,9 @@ class RestaurantImagesTableSeeder extends Seeder
 
 
             //  全店舗のデータ取得し、画像データ生成
-            //$restaurants = Restaurant::select(['r.id', 'r.genre_id', 'g.name'])->from('restaurants as r')
-            //                ->join('genres as g', function($join) {
-            //                    $join->on('r.genre_id', '=', 'g.id');
-            //                })
-            //                ->orderBy('r.id')
-            //                ->get();
+            //  既存の画像ファイル消去
+            array_map('unlink', glob("{$storage_path}/*.*"));
+
             $restaurants = DB::table('restaurants as r')
                 ->select('r.id', 'r.genre_id', 'g.name')
                 ->Join('genres as g', 'r.genre_id', '=', 'g.id')
@@ -89,11 +88,18 @@ class RestaurantImagesTableSeeder extends Seeder
                 ->get();
 
             foreach( $restaurants as $restaurant ) {
+                $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの６桁数値文字列
+
+                //  jpegファイル保存
+                $data = file_get_contents( $array_images[ $restaurant->id - 1 ] );
+                $jgeg_name = "restaurant-{$str_id}-001.jpeg";
+                file_put_contents("$storage_path/$jgeg_name", $data);
+
                 //  1枚目(代表画像)の画像生成
                 $param = [
                     'restaurant_id' => $restaurant->id,
                     'order'         => 1,                   //  代表画像
-                    'img'           => $img_base64 = base64_encode( file_get_contents( $array_images[ $restaurant->id - 1 ] ) ),
+                    'img'           => $jgeg_name,
                 ];
 
                 RestaurantImage::create( $param );
@@ -129,10 +135,16 @@ class RestaurantImagesTableSeeder extends Seeder
                 }
 
                 for ( $i = 0; $i < $img_num; $i++ ) {
+                    //  jpegファイル保存
+                    $data      = base64_decode($array_genre_images[ $array_img_nos[ $i ] ]);
+                    $file_no   = sprintf('%03d', 2 + $i);
+                    $jgeg_name = "restaurant-{$str_id}-{$file_no}.jpeg";
+                    file_put_contents("$storage_path/$jgeg_name", $data);
+
                     $param = [
                         'restaurant_id' => $restaurant->id,
                         'order'         => 2 + $i,          //  表示順(2以降)
-                        'img'           => $array_genre_images[ $array_img_nos[ $i ] ]
+                        'img'           => $jgeg_name
                     ];
                     
                     RestaurantImage::create( $param );

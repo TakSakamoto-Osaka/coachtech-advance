@@ -27,7 +27,7 @@
           <div class="slider">
           @foreach ( $images as $image )
               <div class="slick-img">
-                <img src="data:image/jpeg;base64,{{ $image->img }}" alt="">
+                <img src="{{ asset('/storage/images') }}/{{ $image->img }}" alt="">
               </div>
               @endforeach
           </div>
@@ -35,7 +35,7 @@
           <div class="thumbnail">
             @foreach ( $images as $image )
               <div class="thumnail-img">
-                <img src="data:image/jpeg;base64,{{ $image->img }}" alt="">
+                <img src="{{ asset('/storage/images') }}/{{ $image->img }}" alt="">
               </div>
               @endforeach
           </div>
