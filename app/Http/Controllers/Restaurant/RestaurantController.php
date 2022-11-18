@@ -23,11 +23,15 @@ class RestaurantController extends Controller
         $id = Auth::id();
 
         foreach ( $restaurants as $restaurant ) {
+            /*
             $cmd = "aws s3 presign s3://aws-sakamoto-test-coachtech/images/restaurant-00001-001.jpeg";
             exec($cmd, $opt);
             echo $opt;
             $restaurant->img = $opt[0];
+            */
+            $restaurant->img = asset('/storage/images').'/'.$restaurant->img;
         }
+        
         
         return view('restaurant.index', ['user'=>$user, 'restaurants'=>$restaurants]);
     }
