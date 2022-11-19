@@ -21,7 +21,7 @@ class RestaurantImagesTableSeeder extends Seeder
      */
     public function run()
     {
-        $storage_path = './storage/app/public/images';
+        $storage_path = './storage/app/public/images';  //  画像ファイルローカルフォルダパス
 
         try {
             Schema::disableForeignKeyConstraints();     //  外部キーチェックを無効にする
@@ -88,7 +88,7 @@ class RestaurantImagesTableSeeder extends Seeder
                 ->get();
 
             foreach( $restaurants as $restaurant ) {
-                $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの６桁数値文字列
+                $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの5桁数値文字列
 
                 //  jpegファイル保存
                 $data = file_get_contents( $array_images[ $restaurant->id - 1 ] );
