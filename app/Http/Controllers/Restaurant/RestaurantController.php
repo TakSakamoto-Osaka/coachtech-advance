@@ -28,12 +28,12 @@ class RestaurantController extends Controller
             if ( App::environment('local') ) {          //  ローカル実行の場合
                 $restaurant->img = asset('/storage/images').'/'.$restaurant->img;
 
-            } elseif(App::environment('aws')) {         //  AWS S3の場合
+            } elseif(App::environment('production')) {         //  AWS S3の場合
                 $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの5桁数値文字列
 
-                $cmd = "aws s3 presign s3://aws-sakamoto-test-coachtech/images/restaurant-{$str_id}-001.jpeg";
+                $cmd = "aws s3 presign s3://aws-sakamoto-test-coachtech/images/restaurant-00001-001.jpeg";
                 exec($cmd, $opt);
-                echo $opt;
+                //echo $opt[0];
                 $restaurant->img = $opt[0];
 
             } else {                                    //  その他(Heroku等)       
