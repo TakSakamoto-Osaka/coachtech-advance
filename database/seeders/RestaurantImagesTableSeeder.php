@@ -85,7 +85,7 @@ class RestaurantImagesTableSeeder extends Seeder
 
             //  AWSの場合S3のバケットにもファイルアップロード
             if(App::environment('aws')) {
-                $cmd = "aws s3 rm s3://{$bucket}/images/ --recursive";
+                $cmd = "aws s3 rm s3://{$s3_bucket}/images/ --recursive";
                 exec($cmd);
             }
 
@@ -105,7 +105,7 @@ class RestaurantImagesTableSeeder extends Seeder
 
                 //  AWSの場合S3のバケットにもファイルアップロード
                 if(App::environment('aws')) {
-                    $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$bucket}/images/";
+                    $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$s3_bucket}/images/";
                     exec($cmd);
                 }
 
@@ -157,7 +157,7 @@ class RestaurantImagesTableSeeder extends Seeder
 
                     //  AWSの場合S3のバケットにもファイルアップロード
                     if(App::environment('aws')) {
-                        $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$bucket}/images/";
+                        $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$s3_bucket}/images/";
                         exec($cmd);
                     }
 
