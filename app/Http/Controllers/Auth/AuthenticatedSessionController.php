@@ -15,8 +15,13 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create( Request $request )
     {
+        //  セッションクリア
+        if ( $request->session()->exists('selected_cond') == true ) {    //  セッション中にキー'selected_cond'が存在する場合
+            $request->session()->forget('selected_cond');
+        }
+
         return view('auth.login');
     }
 

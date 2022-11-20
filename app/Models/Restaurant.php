@@ -31,7 +31,7 @@ class Restaurant extends Model
      * 
      * @return [type]
      */
-    public static function getRestaurantData( $selected_cond )
+    public static function getRestaurantData( $selected_cond, $user = null )
     {
         try {
             $results = DB::table('restaurants as r')
@@ -40,21 +40,34 @@ class Restaurant extends Model
                 ->Join('areas as a', 'r.area_id', '=', 'a.id')
                 ->Join('restaurant_images as ri', 'r.id', '=', 'ri.restaurant_id');
 
+                
             //  エリア条件の指定がある場合、エリアで絞る
             if ( $selected_cond['area'] != 0 ) {
                 $results = $results->where('a.id', '=', $selected_cond['area']);
             }
-
+                
             //  ジャンル条件の指定がある場合、ジャンルで絞る
             if ( $selected_cond['genre'] != 0 ) {
                 $results = $results->where('g.id', '=', $selected_cond['genre']);
             }
-
+                
             if ( $selected_cond['name'] != "" ) {
                 $results = $results->where('r.name', 'like', "%{$selected_cond['name']}%");
             }
-
+                
             $results = $results->where('ri.order', 1)->orderBy('r.id')->get();
+                
+            if ( $user !== null ) {     //  ユーザーが指定されている場合(マイページの場合)
+                foreach( $results as $restaurant ) {
+                    $favorite = Favorite::Where('user_id', '=', $user->id)->Where('restaurant_id', '=', $restaurant->id)->get();
+
+                    if ( count( $favorite ) > 0 ) {
+                        $restaurant->favorite = true;
+                    } else {
+                        $restaurant->favorite = false;
+                    }
+                }
+            }
 
             return( $results );
 

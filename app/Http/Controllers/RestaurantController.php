@@ -41,18 +41,17 @@ class RestaurantController extends Controller
             return redirect('/mypage');             //  マイページへリダイレクトする
         }
 
-        //  ゲストアクセスの場合
-        //  全ての店舗データを取得
+        //  エリア情報取得
+        $areas = Restaurant::getUsingAreas();
+        
+        //  全ジャンルを取得
+        $genres = Genre::getAll();
+
+        //  条件を指定して店舗検索
         $restaurants = Restaurant::getRestaurantData( $selected_cond );
 
         //  店舗情報に画像データ追加
         $restaurants = $this->addRestaurantImage( $restaurants );
-
-        //  エリア情報取得
-        $areas = Restaurant::getUsingAreas();
-
-        //  全ジャンルを取得
-        $genres = Genre::getAll();
 
         //  検索条件生成
         $search_cond = [
@@ -107,12 +106,10 @@ class RestaurantController extends Controller
 
         // 現在認証しているユーザーを取得
         $user = Auth::user();
-        
-        /*
-        if ( $user !== null ) {     //  認証されたユーザーがアクセスしている場合
-            return redirect('/mypage');             //  マイページへリダイレクトする
+
+        if ( $user !== null ) {                 //  認証されたユーザーがアクセスしている場合
+            return redirect('/mypage/search');             //  マイページ/検索へリダイレクトする
         }
-        */
 
         //  店舗の存在する全エリア情報取得
         $areas = Restaurant::getUsingAreas();
@@ -126,6 +123,7 @@ class RestaurantController extends Controller
             'genres' => $genres
         ];
 
+        //  条件を指定して店舗検索
         $restaurants = Restaurant::getRestaurantData( $selected_cond );
 
         //  店舗情報に画像データ追加

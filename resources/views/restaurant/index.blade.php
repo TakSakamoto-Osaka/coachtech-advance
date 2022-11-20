@@ -88,6 +88,12 @@
             <div class="card-bottom">
               <button type=“button” class="btn-detail" onclick="location.href='{{ asset('/detail') }}/{{ $restaurant->id }}'">詳しくみる</button>
               @if ( $user !== null )
+                @if ( $restaurant->favorite === true )
+                  <img class="img-favorite" src="{{ asset('/img/Heart-ON.jpeg') }}" alt="">
+                @else
+                  <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
+                @endif
+              @else
                 <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
               @endif
 
