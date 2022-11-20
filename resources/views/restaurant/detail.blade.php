@@ -47,11 +47,8 @@
           <span>#{{ $restaurant->genre_name }}</span>
         </div>
         <p class="restaurant-explain">{{ $restaurant->info }}</p>
-  
       </div>
-
     </div>
-
   </div>
 </div>
 

@@ -5,6 +5,7 @@
 .detail-content {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 30px;
 }
 
 .restaurant-info {
@@ -17,7 +18,21 @@
 
 img {
     width: 100%;
-    height: auto;
+}
+
+.slick-img.slick-slide {
+    height: 360px;
+    object-fit: cover;
+}
+
+.thumnail-img.slick-slide {
+    height: 70px;
+    object-fit: cover;
+}
+
+.thumbnail {
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 .restaurant-name {
