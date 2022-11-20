@@ -19,7 +19,7 @@
   <div class="inner">
     <div class="detail-content">
       <div class="restaurant-info">
-        <p class="header-title">Rese</p>
+        <p class="header-title"><a href="{{ asset('/') }}">Rese</a></p>
 
         <p class="restaurant-name">{{ $restaurant->name }}</p>
 

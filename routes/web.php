@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Restaurant\RestaurantController;
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\MyPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,20 +15,14 @@ use App\Http\Controllers\Restaurant\RestaurantController;
 |
 */
 
-//  サイトトップ
-Route::get('/', [RestaurantController::class, 'index'])->middleware(['auth', 'verified'])->name('top');   //  店舗ページTOP
-
-//  飲食店関連ページ
-Route::get('/detail/{id}', [RestaurantController::class, 'detail'])->middleware(['auth', 'verified'])->name('detail');    //  店舗詳細ページ
-
-// Route::prefix('restaurant')->group( function () {
-//   Route::get('', [RestaurantController::class, 'index']);   //  店舗ページTOP
-// });
+//  ゲスト可
+Route::get('/', [RestaurantController::class, 'index']);
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+//  承認・認証されている場合のみ
+Route::middleware(['auth','verified'])->group(function () {
+    Route::get('/mypage', [MyPageController::class, 'mypage']);    //  店舗詳細ページ
+    Route::get('/detail/{id}', [RestaurantController::class, 'detail']);    //  店舗詳細ページ
+});
 
 require __DIR__.'/auth.php';

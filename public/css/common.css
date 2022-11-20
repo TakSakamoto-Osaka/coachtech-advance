@@ -34,7 +34,6 @@
     }
 }
 
-
 .inner {
     width: 90%;
     padding-top: 40px;
@@ -47,7 +46,12 @@
     width: 100%;
 }
 
-.header-title {
+.header-title,
+.header-title a {
     color: #375df5;
     font-size: xx-large;
+}
+
+.header-title a {
+    text-decoration: none;
 }
