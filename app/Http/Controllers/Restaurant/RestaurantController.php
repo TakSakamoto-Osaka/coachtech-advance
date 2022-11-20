@@ -31,10 +31,8 @@ class RestaurantController extends Controller
                 $restaurant->img = asset('/storage/images').'/'.$restaurant->img;
 
             } elseif(App::environment('aws')) {         //  AWS S3の場合
-                $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの5桁数値文字列
-
                 //  AWS S3バッケットの該当画像のURL取得
-                $cmd = "aws s3 presign s3://{$s3_bucket}/images/restaurant-{$str_id}-001.jpeg";
+                $cmd = "aws s3 presign s3://{$s3_bucket}/images/{$restaurant->img}";
                 exec($cmd, $opt);
                 $restaurant->img = $opt[0];
 

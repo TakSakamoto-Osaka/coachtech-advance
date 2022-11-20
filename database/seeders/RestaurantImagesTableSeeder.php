@@ -107,6 +107,7 @@ class RestaurantImagesTableSeeder extends Seeder
                 if(App::environment('aws')) {
                     $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$s3_bucket}/images/";
                     exec($cmd);
+                    echo $cmd;
                 }
 
                 //  1枚目(代表画像)の画像生成
@@ -159,6 +160,7 @@ class RestaurantImagesTableSeeder extends Seeder
                     if(App::environment('aws')) {
                         $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$s3_bucket}/images/";
                         exec($cmd);
+                        echo $cmd;
                     }
 
                     $param = [
