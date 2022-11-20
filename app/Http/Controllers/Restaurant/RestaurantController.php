@@ -65,6 +65,7 @@ class RestaurantController extends Controller
      */
     public function detail( Request $request, $id )
     {
+        $s3_bucket    = config('aws.bucket');           //  AWS S3バケット
         list( $restaurant, $images ) = Restaurant::getDetail( $id );
         $mod_images = [];           //  画像パス
 
