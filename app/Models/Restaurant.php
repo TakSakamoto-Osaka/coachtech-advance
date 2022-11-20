@@ -39,6 +39,14 @@ class Restaurant extends Model
         }
     }
 
+    /**
+     * 
+     * 
+     * 
+     * @param mixed $id     店舗ID
+     * 
+     * @return [type]       店舗情報, 店舗画像
+     */
     public static function getDetail( $id )
     {
         try {
