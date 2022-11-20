@@ -17,6 +17,7 @@ use App\Http\Controllers\MyPageController;
 
 //  ゲスト可
 Route::get('/', [RestaurantController::class, 'index']);
+Route::post('/', [RestaurantController::class, 'search'])->name('search');
 
 
 //  承認・認証されている場合のみ

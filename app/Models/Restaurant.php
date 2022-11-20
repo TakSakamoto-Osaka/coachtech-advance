@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * 店舗モデルクラス
+ */
 class Restaurant extends Model
 {
     use HasFactory;
@@ -20,17 +23,21 @@ class Restaurant extends Model
         'closed_day',           //  閉店(予定)日 : この日の翌日以降は予約不可
     ];
 
-    public static function getAll()
+
+    public static function getRestaurantData( $area )
     {
         try {
             $results = DB::table('restaurants as r')
                 ->select('r.id', 'r.name', 'g.name as genre_name', 'a.name as area_name', 'ri.img')
                 ->Join('genres as g', 'r.genre_id', '=', 'g.id')
                 ->Join('areas as a', 'r.area_id', '=', 'a.id')
-                ->Join('restaurant_images as ri', 'r.id', '=', 'ri.restaurant_id')
-                ->where('ri.order', 1)
-                ->orderBy('r.id')
-                ->get();
+                ->Join('restaurant_images as ri', 'r.id', '=', 'ri.restaurant_id');
+
+            if ( $area != 0 ) {
+                $results = $results->where('a.id', '=', $area);
+            }
+
+            $results = $results->where('ri.order', 1)->orderBy('r.id')->get();
 
             return( $results );
 
@@ -41,7 +48,7 @@ class Restaurant extends Model
 
     /**
      * 
-     * 
+     * 店舗詳細データ取得
      * 
      * @param mixed $id     店舗ID
      * 
@@ -64,6 +71,29 @@ class Restaurant extends Model
                 ->get();
 
             return( array( $restaurant, $images ) );
+
+        } catch( Exception $e ) {
+            throw $e;
+        }
+    }
+
+    /**
+     * 
+     * 店舗が存在するエリアを取得する
+     * 
+     * @return [type]
+     */
+    public static function getUsingAreas()
+    {
+        try {
+            $areas = DB::table('restaurants as r')
+                ->select('r.area_id as id', 'a.name as name')
+                ->Join('areas as a', 'r.area_id', '=', 'a.id')
+                ->distinct()
+                ->orderBy('r.area_id')
+                ->get();
+
+            return( $areas );
 
         } catch( Exception $e ) {
             throw $e;

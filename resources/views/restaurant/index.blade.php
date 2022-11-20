@@ -33,10 +33,27 @@
       </div>
     </div>
 
+    <form class="form-search" method="POST" action="{{ route('search') }}"">
+      @csrf
+      <select name="area" id="area">
+        <option value="0">選択なし</option>
+        @foreach ( $areas as $area )
+          @if ( $selected_area == $area->id )
+            <option value="{{ $area->id }}" selected>{{ $area->name }}</option>
+          @else
+            <option value="{{ $area->id }}">{{ $area->name }}</option>
+          @endif
+
+          <h2>{{ $area->id }}</h2>
+        @endforeach
+      </select>
+
+      <button class="btn-search">検索</button>
+    </form>
+
     <div class="card-set">
       @foreach ( $restaurants as $restaurant )
         <div class="card">
-          
           <img src="{{ $restaurant->img }}" alt="">
           
           <div class="restaurant-item">

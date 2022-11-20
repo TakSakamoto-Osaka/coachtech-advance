@@ -12,11 +12,21 @@
     margin-right: 15px;
 }
 
+.form-search {
+}
+
+.btn-search {
+    padding: 3px 20px;
+    border-color: aquamarine;
+    border-radius: 5px;
+    background-color: aquamarine;
+}
+
 .card-set {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: left;
     align-content: flex-start;
     margin-top: 20px;
 }
@@ -28,6 +38,7 @@
     border-radius: 5px;
     overflow: hidden;
     width: 256px;
+    margin-right: 10px;
 }
 
 .restaurant-item {
