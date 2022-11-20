@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 店舗画像クラス
+ */
 class RestaurantImage extends Model
 {
     use HasFactory;

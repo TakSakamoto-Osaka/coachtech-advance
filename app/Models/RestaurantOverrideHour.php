@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 店舗営業時間変更情報モデルクラス
+ */
 class RestaurantOverrideHour extends Model
 {
     use HasFactory;

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 店舗連絡先モデルクラス
+ */
 class RestaurantTel extends Model
 {
     use HasFactory;
