@@ -16,8 +16,8 @@ class MyPageController extends Controller
 
     public function mypage( Request $request )
     {
-        if ( $request->session()->exists('selected_cond') == true ) {    //  セッション中にキー'select_cond'(検索条件)が存在する場合
-            $selected_cond = $request->session()->get('selected_cond');           //  セッション中のdata取得
+        if ( $request->session()->exists('selected_cond') == true ) {    //  セッション中にキー'selected_cond'(検索条件)が存在する場合
+            $selected_cond = $request->session()->get('selected_cond');           //  セッション中のselected_cond取得
         } else {
             $selected_cond = [
                 'area'  => 0,       //  全エリア

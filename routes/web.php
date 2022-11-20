@@ -18,12 +18,12 @@ use App\Http\Controllers\MyPageController;
 //  ゲスト可
 Route::get('/', [RestaurantController::class, 'index']);
 Route::post('/', [RestaurantController::class, 'search'])->name('search');
+Route::get('/detail/{id}', [RestaurantController::class, 'detail']);    //  店舗詳細ページ
 
 
 //  承認・認証されている場合のみ
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/mypage', [MyPageController::class, 'mypage']);    //  店舗詳細ページ
-    Route::get('/detail/{id}', [RestaurantController::class, 'detail']);    //  店舗詳細ページ
 });
 
 require __DIR__.'/auth.php';

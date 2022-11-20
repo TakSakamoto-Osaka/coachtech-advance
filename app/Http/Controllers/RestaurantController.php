@@ -24,8 +24,8 @@ class RestaurantController extends Controller
      */
     public function index( Request $request )
     {
-        if ( $request->session()->exists('selected_cond') == true ) {    //  セッション中にキー'select_cond'(検索条件)が存在する場合
-            $selected_cond = $request->session()->get('selected_cond');           //  セッション中のdata取得
+        if ( $request->session()->exists('selected_cond') == true ) {    //  セッション中にキー'selected_cond'(検索条件)が存在する場合
+            $selected_cond = $request->session()->get('selected_cond');           //  セッション中のselected_cond取得
         } else {
             $selected_cond = [
                 'area'  => 0,       //  全エリア
@@ -43,7 +43,7 @@ class RestaurantController extends Controller
 
         //  ゲストアクセスの場合
         //  全ての店舗データを取得
-        $restaurants = Restaurant::getRestaurantData( $select_cond );
+        $restaurants = Restaurant::getRestaurantData( $selected_cond );
 
         //  店舗情報に画像データ追加
         $restaurants = $this->addRestaurantImage( $restaurants );
