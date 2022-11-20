@@ -35,8 +35,8 @@
     
     <form class="form-search" method="POST" action="{{ route('search') }}"">
       @csrf
-      <fieldset>
-        <legend>検索条件</legend>
+      <fieldset class="search-fieldset">
+        <legend class="search-legent">検索条件</legend>
         <div class="search-block">
           <div class="select-area-block">
             <p class="select-area-title">エリア</p>
@@ -79,16 +79,16 @@
     <div class="card-set">
       @foreach ( $restaurants as $restaurant )
         <div class="card">
-          <img src="{{ $restaurant->img }}" alt="">
+          <img class="img-restaurant" src="{{ $restaurant->img }}" alt="">
           
           <div class="restaurant-item">
             <p class="restaurant-name">{{ $restaurant->name }}</p>
-            <span>#{{ $restaurant->area_name }}</span>
-            <span>#{{ $restaurant->genre_name }}</span>
+            <span class="hash_tag">#{{ $restaurant->area_name }}</span>
+            <span class="hash_tag">#{{ $restaurant->genre_name }}</span>
             <div class="card-bottom">
               <button type=“button” class="btn-detail" onclick="location.href='{{ asset('/detail') }}/{{ $restaurant->id }}'">詳しくみる</button>
               @if ( $user !== null )
-                <img src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
+                <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
               @endif
 
             </div>
