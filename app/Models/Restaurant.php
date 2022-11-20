@@ -23,8 +23,15 @@ class Restaurant extends Model
         'closed_day',           //  閉店(予定)日 : この日の翌日以降は予約不可
     ];
 
-
-    public static function getRestaurantData( $area )
+    /**
+     * 
+     * 検索条件に応じて店舗データを取得する
+     * 
+     * @param mixed $selected_cond
+     * 
+     * @return [type]
+     */
+    public static function getRestaurantData( $selected_cond )
     {
         try {
             $results = DB::table('restaurants as r')
@@ -33,8 +40,18 @@ class Restaurant extends Model
                 ->Join('areas as a', 'r.area_id', '=', 'a.id')
                 ->Join('restaurant_images as ri', 'r.id', '=', 'ri.restaurant_id');
 
-            if ( $area != 0 ) {
-                $results = $results->where('a.id', '=', $area);
+            //  エリア条件の指定がある場合、エリアで絞る
+            if ( $selected_cond['area'] != 0 ) {
+                $results = $results->where('a.id', '=', $selected_cond['area']);
+            }
+
+            //  ジャンル条件の指定がある場合、ジャンルで絞る
+            if ( $selected_cond['genre'] != 0 ) {
+                $results = $results->where('g.id', '=', $selected_cond['genre']);
+            }
+
+            if ( $selected_cond['name'] != "" ) {
+                $results = $results->where('r.name', 'like', "%{$selected_cond['name']}%");
             }
 
             $results = $results->where('ri.order', 1)->orderBy('r.id')->get();

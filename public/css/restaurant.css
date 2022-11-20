@@ -13,6 +13,41 @@
 }
 
 .form-search {
+    display: felx;
+    justify-content: left;
+    margin-top: 20px;
+}
+
+fieldset {
+    display: inline-block;
+    border: 0.5px solid gray;
+}
+
+legend {
+    margin-left: 15px;
+}
+
+.search-block {
+    margin: 10px 15px;
+}
+
+.select-area-block,
+.select-genre-block,
+.search-name-block {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.select-area-title,
+.select-genre-title,
+.search-name-title {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.select-area,
+.select-genre {
+    width: 150px;
 }
 
 .btn-search {

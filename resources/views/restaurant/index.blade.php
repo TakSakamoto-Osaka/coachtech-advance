@@ -32,23 +32,48 @@
         </form>
       </div>
     </div>
-
+    
     <form class="form-search" method="POST" action="{{ route('search') }}"">
       @csrf
-      <select name="area" id="area">
-        <option value="0">選択なし</option>
-        @foreach ( $areas as $area )
-          @if ( $selected_area == $area->id )
-            <option value="{{ $area->id }}" selected>{{ $area->name }}</option>
-          @else
-            <option value="{{ $area->id }}">{{ $area->name }}</option>
-          @endif
+      <fieldset>
+        <legend>検索条件</legend>
+        <div class="search-block">
+          <div class="select-area-block">
+            <p class="select-area-title">エリア</p>
+            <select name="area" id="area" class="select-area">
+              <option value="0">選択なし</option>
+              @foreach ( $search_cond['areas'] as $area )
+                @if ( $selected_cond['area'] == $area->id )
+                  <option value="{{ $area->id }}" selected>{{ $area->name }}</option>
+                @else
+                  <option value="{{ $area->id }}">{{ $area->name }}</option>
+                @endif
+              @endforeach
+            </select>
+          </div>
 
-          <h2>{{ $area->id }}</h2>
-        @endforeach
-      </select>
+          <div class="select-genre-block">
+            <p class="select-genre-title">ジャンル</p>
+            <select name="genre" id="genre" class="select-genre">
+              <option value="0">選択なし</option>
+              @foreach ( $search_cond['genres'] as $genre )
+                @if ( $selected_cond['genre'] == $genre->id )
+                  <option value="{{ $genre->id }}" selected>{{ $genre->name }}</option>
+                @else
+                  <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                @endif
+              @endforeach
+            </select>
+          </div>
 
-      <button class="btn-search">検索</button>
+          <div class="search-name-block">
+            <p class="search-name-title">店名</p>
+            <input name="name" type="text" class="input-restaurant-name" value={{ $selected_cond['name'] }}>
+          </div>
+  
+          <button class="btn-search">検索</button>
+        </div>
+      </fieldset>
     </form>
 
     <div class="card-set">
@@ -76,4 +101,3 @@
 </div>
 
 @endsection
-
