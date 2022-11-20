@@ -14,6 +14,8 @@ class RestaurantController extends Controller
 
     public function index( Request $request )
     {
+        $s3_bucket    = config('aws.bucket');           //  AWS S3バケット
+
         //  全ての店舗データを取得
         $restaurants = Restaurant::getAll();
 
@@ -28,20 +30,18 @@ class RestaurantController extends Controller
             if ( App::environment('local') ) {          //  ローカル実行の場合
                 $restaurant->img = asset('/storage/images').'/'.$restaurant->img;
 
-            } elseif(App::environment('production')) {         //  AWS S3の場合
+            } elseif(App::environment('aws')) {         //  AWS S3の場合
                 $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの5桁数値文字列
 
-                $cmd = "aws s3 presign s3://aws-sakamoto-test-coachtech/images/restaurant-00001-001.jpeg";
+                //  AWS S3バッケットの該当画像のURL取得
+                $cmd = "aws s3 presign s3://{$s3_bucket}/images/restaurant-{$str_id}-001.jpeg";
                 exec($cmd, $opt);
-                //echo $opt[0];
                 $restaurant->img = $opt[0];
 
             } else {                                    //  その他(Heroku等)       
                 $restaurant->img = asset('/storage/images').'/'.$restaurant->img;
             }
-
         }
-        
         
         return view('restaurant.index', ['user'=>$user, 'restaurants'=>$restaurants]);
     }

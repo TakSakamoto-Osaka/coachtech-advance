@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\App;
 use App\Models\Genre;
 use App\Models\Restaurant;
 use App\Models\RestaurantImage;
@@ -22,6 +23,7 @@ class RestaurantImagesTableSeeder extends Seeder
     public function run()
     {
         $storage_path = './storage/app/public/images';  //  画像ファイルローカルフォルダパス
+        $s3_bucket    = config('aws.bucket');           //  AWS S3バケット
 
         try {
             Schema::disableForeignKeyConstraints();     //  外部キーチェックを無効にする
@@ -81,6 +83,12 @@ class RestaurantImagesTableSeeder extends Seeder
             //  既存の画像ファイル消去
             array_map('unlink', glob("{$storage_path}/*.*"));
 
+            //  AWSの場合S3のバケットにもファイルアップロード
+            if(App::environment('aws')) {
+                $cmd = "aws s3 rm s3://{$bucket}/images/ --recursive";
+                exec($cmd);
+            }
+
             $restaurants = DB::table('restaurants as r')
                 ->select('r.id', 'r.genre_id', 'g.name')
                 ->Join('genres as g', 'r.genre_id', '=', 'g.id')
@@ -90,13 +98,16 @@ class RestaurantImagesTableSeeder extends Seeder
             foreach( $restaurants as $restaurant ) {
                 $str_id = sprintf('%05d', $restaurant->id);     //  レストランIDの5桁数値文字列
 
-                //  jpegファイル保存
+                //  jpegファイルをstorageフォルダに保存
                 $data = file_get_contents( $array_images[ $restaurant->id - 1 ] );
                 $jpeg_name = "restaurant-{$str_id}-001.jpeg";
                 file_put_contents("{$storage_path}/{$jpeg_name}", $data);
 
-                $cmd = "aws s3 cp {$storage_path}/{$jpeg_name} s3://aws-sakamoto-test-coachtech/images/";
-                exec($cmd);
+                //  AWSの場合S3のバケットにもファイルアップロード
+                if(App::environment('aws')) {
+                    $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$bucket}/images/";
+                    exec($cmd);
+                }
 
                 //  1枚目(代表画像)の画像生成
                 $param = [
@@ -144,8 +155,11 @@ class RestaurantImagesTableSeeder extends Seeder
                     $jpeg_name = "restaurant-{$str_id}-{$file_no}.jpeg";
                     file_put_contents("{$storage_path}/{$jpeg_name}", $data);
 
-                    $cmd = "aws s3 cp {$storage_path}/{$jpeg_name} s3://aws-sakamoto-test-coachtech/images/";
-                    exec($cmd);
+                    //  AWSの場合S3のバケットにもファイルアップロード
+                    if(App::environment('aws')) {
+                        $cmd = "aws s3 mv {$storage_path}/{$jpeg_name} s3://{$bucket}/images/";
+                        exec($cmd);
+                    }
 
                     $param = [
                         'restaurant_id' => $restaurant->id,
