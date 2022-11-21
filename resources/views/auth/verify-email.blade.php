@@ -25,7 +25,7 @@
         <div class="foot">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
-                <button class="resend-email-btn">本登録メール再送信</button>
+                <button class="resend-email-btn" autofocus>本登録メール再送信</button>
             </form>
 
             <form method="POST" action="{{ route('logout') }}">

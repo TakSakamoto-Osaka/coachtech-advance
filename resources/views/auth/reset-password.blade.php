@@ -33,7 +33,7 @@
         <!-- Confirm Password -->
         <div class="password-block">
             <span class="input-title">パスワード[確認]</span>
-            <input id="password_confirmation" class="password-input" type="password" name="password_confirmation" required />
+            <input id="password_confirmation" class="password-input" type="password" name="password_confirmation" required autofocus />
             <p class="error"> @if($errors->has('password')) {{ $errors->first('password') }} @else &nbsp;  @endif </p>
         </div>
 

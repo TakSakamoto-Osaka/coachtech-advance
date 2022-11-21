@@ -41,28 +41,23 @@ class RestaurantController extends Controller
             return redirect('/mypage');             //  マイページへリダイレクトする
         }
 
-        //  エリア情報取得
-        $areas = Restaurant::getUsingAreas();
-        
-        //  全ジャンルを取得
-        $genres = Genre::getAll();
+        //  検索条件生成
+        $search_cond = [
+            'areas'  => Restaurant::getUsingAreas(),    //  店舗の存在する全エリア
+            'genres' => Genre::getAll()                 //  全ジャンル
+        ];
 
         //  条件を指定して店舗検索
         $restaurants = Restaurant::getRestaurantData( $selected_cond );
 
         //  店舗情報に画像データ追加
         $restaurants = $this->addRestaurantImage( $restaurants );
-
-        //  検索条件生成
-        $search_cond = [
-            'areas'  => $areas,
-            'genres' => $genres
-        ];
         
         return view('restaurant.index', [ 'search_cond'=>$search_cond, 
                                         'user'=>$user,
                                         'selected_cond'=>$selected_cond,
-                                        'restaurants'=>$restaurants]);
+                                        'restaurants'=>$restaurants,
+                                        'favorite' => false]);
     }
 
     /**
@@ -111,16 +106,10 @@ class RestaurantController extends Controller
             return redirect('/mypage/search');             //  マイページ/検索へリダイレクトする
         }
 
-        //  店舗の存在する全エリア情報取得
-        $areas = Restaurant::getUsingAreas();
-
-        //  全ジャンルを取得
-        $genres = Genre::getAll();
-
         //  検索条件生成
         $search_cond = [
-            'areas'  => $areas,
-            'genres' => $genres
+            'areas'  => Restaurant::getUsingAreas(),    //  店舗の存在する全エリア
+            'genres' => Genre::getAll()                 //  全ジャンル
         ];
 
         //  条件を指定して店舗検索
@@ -132,6 +121,7 @@ class RestaurantController extends Controller
         return view('restaurant.index', [ 'search_cond'=>$search_cond, 
                                         'user'=>$user,
                                         'selected_cond'=>$selected_cond,
-                                        'restaurants'=>$restaurants]);
+                                        'restaurants'=>$restaurants,
+                                        'favorite' => false]);
     }
 }

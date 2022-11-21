@@ -24,6 +24,7 @@ Route::get('/detail/{id}', [RestaurantController::class, 'detail']);        //  
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/mypage',           [MyPageController::class, 'mypage']);    //  マイページ
     Route::get('/mypage/search',    [MyPageController::class, 'search']);    //  店舗検索
+    Route::get('/mypage/favorite',  [MyPageController::class, 'favorite']);  //  お気に入り一覧
 });
 
 require __DIR__.'/auth.php';

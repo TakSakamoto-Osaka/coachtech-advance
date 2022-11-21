@@ -12,10 +12,16 @@
     margin-right: 15px;
 }
 
+.search-and-favorite {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 20px;
+}
+
 .form-search {
     display: felx;
     justify-content: left;
-    margin-top: 20px;
 }
 
 .search-fieldset {
@@ -55,6 +61,23 @@
     border-color: aquamarine;
     border-radius: 5px;
     background-color: aquamarine;
+}
+
+.btn-favorite-restaurants {
+    height: 50px;
+    background-color: #ffffa3;
+    border-color: #ffffa3;
+    border-radius: 5px;
+}
+
+.btn-back {
+    height: 50px;
+    width: 100px;
+    font-size: large;
+    background-color: gainsboro;
+    border-color: gray;
+    border-radius: 5px;
+    padding: 0 10px;
 }
 
 .card-set {
