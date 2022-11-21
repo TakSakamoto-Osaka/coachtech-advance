@@ -92,10 +92,10 @@ class RestaurantController extends Controller
                 if ( $request->favorite === 'on' ) {
                     $favorite = true;
                     //  データ追加
-                    $param->create([
+                    $param = [
                         'user_id'       => $user->id,
                         'restaurant_id' => $restaurant->id
-                    ]);
+                    ];
                     Favorite::create($param);
 
                 } else {
@@ -137,7 +137,10 @@ class RestaurantController extends Controller
 
                 $cur_reserve = null;           //  現在の予約なし
             }
-
+        
+        } else {            //  ゲストの場合
+            $reserve_contents = null;
+            $cur_reserve      = null;
         }
 
         //  現在の日付と60日後の日付文字列生成

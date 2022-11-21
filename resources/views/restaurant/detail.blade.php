@@ -62,7 +62,12 @@
         <button class="btn-back" onclick="location.href='{{ asset('/') }}'">戻る</button>
       </div>
 
-      <div class="reserve-area">
+      @if ( $user !== null)
+        <div class="reserve-area">
+      @else
+        <div class="reserve-area" hidden>
+      @endif
+
         @if ( $cur_reserve === null )
         <p class="reserve-title">予約</p>
 
