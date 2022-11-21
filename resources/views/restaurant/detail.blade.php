@@ -21,7 +21,17 @@
       <div class="restaurant-info">
         <p class="header-title"><a href="{{ asset('/') }}">Rese</a></p>
 
-        <p class="restaurant-name">{{ $restaurant->name }}</p>
+        <div class="name-and-favorite-block">
+          <p class="restaurant-name">{{ $restaurant->name }}</p>
+          
+          @if ( $user !== null )
+            @if ( $favorite === true )
+              <img class="img-favorite" src="{{ asset('/img/Heart-ON.jpeg') }}" alt="" onclick="location.href='{{ asset('/detail').'/'.$restaurant->id.'/?favorite=off' }}'">
+            @else
+              <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="" onclick="location.href='{{ asset('/detail').'/'.$restaurant->id.'/?favorite=on' }}'">
+            @endif
+          @endif
+        </div>
 
         <div class="img-container">
           <div class="slider">
@@ -47,10 +57,14 @@
           <span>#{{ $restaurant->genre_name }}</span>
         </div>
         <p class="restaurant-explain">{{ $restaurant->info }}</p>
+        
+        <button class="btn-back" onclick="location.href='{{ asset('/') }}'">戻る</button>
       </div>
     </div>
   </div>
 </div>
+
+
 
 @endsection
 

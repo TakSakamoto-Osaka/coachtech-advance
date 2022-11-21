@@ -135,4 +135,35 @@ class Restaurant extends Model
             throw $e;
         }
     }
+
+    /**
+     * 
+     * お気に入りの店舗か判定
+     * 
+     * @param mixed $restaurant_id  店舗ID
+     * @param mixed $user_id        ユーザーID
+     * 
+     * @return [type]
+     */
+    public static function isFavorite( $restaurant_id, $user_id )
+    {
+        try {
+            $favorite = DB::table('restaurants as r')
+                ->select('r.id')
+                ->Join('favorites as f', 'f.restaurant_id', '=', 'r.id')
+                ->where('f.restaurant_id', '=', $restaurant_id)
+                ->where('f.user_id', '=', $user_id)
+                ->get();
+
+            if ( count( $favorite ) > 0 ) {
+                return ( true );
+            } else {
+                return ( false );
+            }
+
+        } catch( Exception $e ) {
+            throw $e;
+        }
+    
+    }
 }

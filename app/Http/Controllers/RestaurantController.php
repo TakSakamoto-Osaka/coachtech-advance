@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Validation\ValidationException;
 use App\Models\Restaurant;
 use App\Models\Genre;
+use App\Models\Favorite;
 
 class RestaurantController extends Controller
 {
@@ -75,8 +76,38 @@ class RestaurantController extends Controller
 
         //  デプロイ先に応じて画像ファイルの取得場所変更
         $images = $this->getImagePath( $images );
+        
+        // 現在認証しているユーザーを取得
+        $user = Auth::user();
+        
+        //  お気に入り検索
+        $favorite = false;
 
-        return view('restaurant.detail', ['restaurant'=>$restaurant, 'images'=>$images]);
+        if ( $user !== null ) {     //  マイページからの表示の場合
+            $favorite = Restaurant::isFavorite( $restaurant->id, $user->id );   //  現在のお気に入り情報
+
+            //  お気に入り変更パラメータ取得
+            if ( $request->favorite !== null  ) {
+                if ( $request->favorite === 'on' ) {
+                    $favorite = true;
+                    //  データ追加
+                    $obj = new Favorite();
+                    $obj->create([
+                        'user_id'       => $user->id,
+                        'restaurant_id' => $restaurant->id
+                    ]);
+
+                } else {
+                    $favorite = false;
+
+                    //  データ削除
+                    Favorite::where('user_id', '=', $user->id)->where('restaurant_id', '=', $restaurant->id)->delete();
+                }
+            }
+        } 
+
+        return view('restaurant.detail', ['restaurant'=>$restaurant, 'images'=>$images,
+                                        'favorite'=>$favorite, 'user'=>$user]);
     }
 
     /**

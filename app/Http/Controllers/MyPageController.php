@@ -145,5 +145,4 @@ class MyPageController extends Controller
                                         'restaurants'=>$restaurants,
                                         'favorite' => true]);
     }
-
 }

@@ -104,8 +104,6 @@
                 @else
                   <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
                 @endif
-              @else
-                <img class="img-favorite" src="{{ asset('/img/Heart-OFF.jpeg') }}" alt="">
               @endif
 
             </div>
