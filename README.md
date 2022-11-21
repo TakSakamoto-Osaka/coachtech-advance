@@ -1,66 +1,105 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# coachtech-advance課題 飲食店予約サイト Rese(リーズ)
+サイト内に登録されている飲食店の予約と管理ができるサイト
+![メイン画面](./doc/img/img-main.png)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 作成した目的
+coachtech-advanceターム課題
 
-## About Laravel
+## アプリケーションURL
+### Heroku
+http://warm-crag-29681.herokuapp.com
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### AWS
+http://aws-sakamoto-test.work
+(サーバー自体は構築しているのですが、11月21(月)の夜からDNSエラーがでるようになり正常に表示できません。)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### ローカル環境
+http://127.0.0.0.1:[ポート番号]
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## リポジトリ
+https://github.com/TakSakamoto-Osaka/coachtech-advance
 
-## Learning Laravel
+## 機能一覧
+- メール認証を用いた新規ユーザー登録
+- パスワードリセット機能
+- ログイン機能
+- レストラン検索機能
+- レストランお気に入り登録機能
+- レストラン予約機能
+- レストラン予約削除機能
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 使用技術(実行環境)
+- Laravel 9.40.1
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## テーブル設計
+(設計当初は店舗の休日を設定しようと考えており、PHPのコードではmigration,seedまで行っているが、機能処理の実装までにはいたっておらず未使用)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![テーブル設計-1](./doc/img/table-design-1.png)
+![テーブル設計-2](./doc/img/table-design-2.png)
+![テーブル設計-3](./doc/img/table-design-3.png)
 
-## Laravel Sponsors
+## ER図
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+## ローカル環境構築
+- リポジトリをクローンする
+```sh
+git clone https://github.com/TakSakamoto-Osaka/coachtech-advance
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+- ローカルリポジトリに移動
+```sh
+cd coachtech-advance
+```
 
-## Contributing
+- composer update実行
+```sh
+composer update
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- 環境ファイルの作成
+ローカル環境(サーバー名が127.0.0.1で実行される場合)は .env.localを環境設定ファイルとして参照しています。
+よって.env.localファイルの作成とDB接続, メール送信smtpの設定が必要です。
+```sh
+cp .env.example .env.local
+vi .env.local
+```
 
-## Code of Conduct
+- .env.localのDB接続設定を実行環境に応じて編集
+<img src="./doc/img/env.local-DB設定.png" width=200>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+- .env.localのsmtpサーバー接続設定を実行環境に応じて編集
+<img src="./doc/img/env.local-smtp設定.png" width=200>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- DBマイグレーション
+```sh
+php artisan migrate:make --env=local
+```
 
-## License
+- DBデータシーティング
+```sh
+php artisan db:seed --env=local
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- ローカルサーバー起動
+```sh
+php artisan serve
+```
+
+## 注記
+- vue-routeのインストールとnpm run buildは不要
+  Laravelが標準で用意しているViewは全てvueおよびtailwind CSSを使用しないようカスタム画面に置き換えているため、題記作業は必要ありません。
+
+- 初期ログイン可能なアカウント
+  - taro.test@test.com
+  - hanako.test@test.com
+  - jiro.test@test.com
+  
+  パスワードは全て 12345678 です。
+
+- Circle CIによるデプロイ自動化
+<img src="./doc/img/CircleCI.png" width=400>
+
+Circle CIの設定は ./circleci を参照してください
+
