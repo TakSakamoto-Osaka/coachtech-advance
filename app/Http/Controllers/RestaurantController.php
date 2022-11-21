@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Restaurant;
 use App\Models\Genre;
 use App\Models\Favorite;
+use App\Models\Reserve;
 
 class RestaurantController extends Controller
 {
@@ -91,11 +92,11 @@ class RestaurantController extends Controller
                 if ( $request->favorite === 'on' ) {
                     $favorite = true;
                     //  データ追加
-                    $obj = new Favorite();
-                    $obj->create([
+                    $param->create([
                         'user_id'       => $user->id,
                         'restaurant_id' => $restaurant->id
                     ]);
+                    Favorite::create($param);
 
                 } else {
                     $favorite = false;
@@ -104,10 +105,50 @@ class RestaurantController extends Controller
                     Favorite::where('user_id', '=', $user->id)->where('restaurant_id', '=', $restaurant->id)->delete();
                 }
             }
-        } 
+
+            //  ログインしているユーザーで選択している店の予約があるか検索
+            $cur_reserves = Reserve::getReserveAllData( $user->id, $restaurant->id );
+
+            if ( count( $cur_reserves ) > 0 ) {     //  予約がある場合
+                $cur_reserve = $cur_reserves[ 0 ];
+
+                //  セッション予約情報生成
+                //  予約内容
+                $reserve_contents = [
+                    'date'          => $cur_reserve->reserve_date,      //  予約日
+                    'time'          => $cur_reserve->start_time,        //  開始時間
+                    'number'        => $cur_reserve->number,            //  人数
+                    'restaurant_id' => $cur_reserve->restaurant_id      //  店舗ID
+                ];
+
+                //  店舗情報取得
+                $restaurant = Restaurant::where('id', '=', $reserve_contents['restaurant_id'])->first();
+                $reserve_contents['restaurant_name'] = $restaurant->name;
+
+                $request->session()->put('reserve_contents', $reserve_contents);    //  予約情報をセッションに保存
+
+            } else {
+                //  セッション中の予約情報取得
+                if ( $request->session()->exists('reserve_contents') == true ) {        //  セッション中にキー'reserve_contents'(検索条件)が存在する場合
+                    $reserve_contents = $request->session()->get('reserve_contents');       //  セッション中のreserve_contents取得
+                } else {
+                    $reserve_contents = null;
+                }
+
+                $cur_reserve = null;           //  現在の予約なし
+            }
+
+        }
+
+        //  現在の日付と60日後の日付文字列生成
+        $today_str  = date('Y-m-d');
+        $maxday_str = date('Y-m-d', strtotime("+60 day"));
 
         return view('restaurant.detail', ['restaurant'=>$restaurant, 'images'=>$images,
-                                        'favorite'=>$favorite, 'user'=>$user]);
+                                        'favorite'=>$favorite, 'user'=>$user,
+                                        'reserve_contents'=>$reserve_contents,
+                                        'today'=>$today_str, 'maxday'=>$maxday_str,
+                                        'cur_reserve'=>$cur_reserve]);
     }
 
     /**

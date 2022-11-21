@@ -1,0 +1,78 @@
+/*
+    予約確認サンクスページ CSS
+*/
+
+.thanks-content {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.thanks-message {
+    display: inline-block;
+    width: 100%;
+    margin: 20px 0 50px;
+    text-align: center;
+}
+
+.confirm-content {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.reserve-title,
+.reserve-content {
+    width: 50%;
+    border: 0.5px solid gray;
+    padding: 10px 20px;
+}
+
+.foot {
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+    margin: 50px auto 0;
+}
+
+.reserve-modify,
+.reserve-fix {
+    width: 250px;
+    height: 50px;
+    border-radius: 5px;
+    border: 0.5px solid black;
+}
+
+.reserve-modify {
+    background-color: fuchsia;
+    margin: 0 10px;
+}
+
+.reserve-fix {
+    background-color: skyblue;
+    margin: 0 10px;
+}
+
+.delete-cancel {
+    background-color: aquamarine;
+    margin: 0 10px;
+}
+
+.delete-fix {
+    background-color: darkgrey;
+    margin: 0 10px;
+}
+
+.confirm-content {
+    display: flex;
+    justify-content: space-between;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.reserve-title,
+.reserve-content {
+    width: 50%;
+    border: 0.5px solid gray;
+    padding: 10px 20px;
+}

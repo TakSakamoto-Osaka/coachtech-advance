@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RestaurantOverrideHoursTableSeeder::class);     //  店舗臨時営業・休日　標準休日、標準設定時間より優先される
 
         $this->call(FavoritesTableSeeder::class);                   //  お気に入り
+        $this->call(ReservesTableSeeder::class);                    //  予約
     }
 }
