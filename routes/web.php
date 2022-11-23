@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,12 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/del_done',             [MyPageController::class, 'delDone']);      //  削除完了
 });
 
+
 require __DIR__.'/auth.php';
+
+//  サイト管理者
+Route::prefix('admin')->name('admin.')->group(function(){
+    require __DIR__.'/admin.php';
+
+    Route::get('/',                     [AdminController::class, 'admin']);         //  サイト管理者TOPページ
+});

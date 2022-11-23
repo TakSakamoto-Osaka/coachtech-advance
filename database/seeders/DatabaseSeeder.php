@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(AdminsTableSeeder::class);                      //  サイト管理者
         $this->call(UsersTableSeeder::class);                       //  ユーザー
 
         $this->call(AreasTableSeeder::class);                       //  地域
