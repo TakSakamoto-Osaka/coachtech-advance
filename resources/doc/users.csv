@@ -1,4 +1,4 @@
 ﻿No,ユーザー名,email,password
-1,テスト太郎,taro.test@test.com,$2y$10$t0qz2jnhdfqUYrPVxoKkzulPivGWHmSQ9e9A646b4wg1JHJ.odpZa
-2,テスト花子,hanako.test@test.com,$2y$10$t0qz2jnhdfqUYrPVxoKkzulPivGWHmSQ9e9A646b4wg1JHJ.odpZa
-3,テスト次郎,jiro.test@test.com,$2y$10$t0qz2jnhdfqUYrPVxoKkzulPivGWHmSQ9e9A646b4wg1JHJ.odpZa
+1,テスト太郎,taro.test@test.com,12345678
+2,テスト花子,hanako.test@test.com,12345678
+3,テスト次郎,jiro.test@test.com,12345678

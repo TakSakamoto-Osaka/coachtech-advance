@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UsersTableSeeder extends Seeder
@@ -28,10 +29,10 @@ class UsersTableSeeder extends Seeder
 
             while($line = fgetcsv($fp)) {
                 $param = [
-                    'name'              => $line[1],            //  ユーザー名
-                    'email'             => $line[2],            //  メールアドレス
-                    'email_verified_at' => date('Y/m/d'),       //  承認日
-                    'password'          => $line[3],            //  パスワード
+                    'name'              => $line[1],                //  ユーザー名
+                    'email'             => $line[2],                //  メールアドレス
+                    'email_verified_at' => date('Y/m/d'),           //  承認日
+                    'password'          => Hash::make( $line[3] ),  //  パスワードをハッシュ化
                 ];
 
                 User::create( $param );                //  レコード追加
